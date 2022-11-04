@@ -12,7 +12,7 @@ DROP SCHEMA IF EXISTS `db_transcripcion` ;
 -- -----------------------------------------------------
 -- Schema db_transcripcion
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `db_transcripcion` DEFAULT CHARACTER SET utf8mb3 ;
+CREATE SCHEMA IF NOT EXISTS `db_transcripcion` DEFAULT CHARACTER SET utf8 ;
 USE `db_transcripcion` ;
 
 -- -----------------------------------------------------
@@ -20,16 +20,14 @@ USE `db_transcripcion` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `db_transcripcion`.`usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(255) NOT NULL,
-  `last_name` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `first_name` VARCHAR(255) NULL,
+  `last_name` VARCHAR(255) NULL,
+  `email` VARCHAR(255) NULL,
+  `password` VARCHAR(255) NULL,
+  `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb3;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -38,14 +36,14 @@ DEFAULT CHARACTER SET = utf8mb3;
 CREATE TABLE IF NOT EXISTS `db_transcripcion`.`registros` (
   `id_registros` INT NOT NULL AUTO_INCREMENT,
   `usuarios_id` INT NOT NULL,
-  `registro` VARCHAR(255) NOT NULL,
-  `updated_at` DATETIME NULL,
+  `registro` VARCHAR(255) NULL,
   `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
   PRIMARY KEY (`id_registros`),
   INDEX `fk_registros_usuarios_idx` (`usuarios_id` ASC) VISIBLE,
   CONSTRAINT `fk_registros_usuarios`
     FOREIGN KEY (`usuarios_id`)
-    REFERENCES `transc_grupo`.`usuarios` (`id`)
+    REFERENCES `db_transcripcion`.`usuarios` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

@@ -181,6 +181,11 @@ def download():
     primera= Registro.primera(session['id_usuario'])
   
     total_registros = False
+    
+    if registros is None:
+        cantidad_Registros = 0
+        return render_template('/conversor.html', total_registros=total_registros, cantidad_Registros=cantidad_Registros)
+
     cantidad_Registros = len(registros)
     if cantidad_Registros >= 5:
         total_registros = True

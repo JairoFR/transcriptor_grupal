@@ -51,7 +51,6 @@ class Registro(ModeloBase):
         query = f"SELECT * FROM registros where usuarios_id = %(id)s ORDER by id_registros DESC LIMIT 1;"
         data = { 'id' : id }
         results = connectToMySQL("db_transcripcion").query_db(query, data)
-        print(results)
         if len(results) > 0:
             return results
         else:
