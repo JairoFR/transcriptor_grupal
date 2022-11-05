@@ -1,8 +1,7 @@
-
-from flask import flash
+import os
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models.modelo_base import ModeloBase
-from flask_app.utils.regex import REGEX_CORREO_VALIDO
+
 
 class Registro(ModeloBase):
 
@@ -20,7 +19,7 @@ class Registro(ModeloBase):
     def buscar_registro(cls, dato):
         query = f"SELECT * FROM {cls.modelo} WHERE usuarios_id = %(dato)s"
         data = { 'dato' : dato }
-        results = connectToMySQL("db_transcripcion").query_db(query, data)
+        results = connectToMySQL(os.environ.get("BASE_DATOS_NOMBRE")).query_db(query, data)
         print('buscar_registro: ',results)
         if len(results) > 0:
             return results
@@ -31,7 +30,7 @@ class Registro(ModeloBase):
     def save(cls, data ):
 
         query = f"INSERT INTO {cls.modelo} (usuarios_id, registro, created_at, updated_at ) VALUES (%(usuarios_id)s, %(registro)s, NOW(),NOW());"
-        resultado = connectToMySQL("db_transcripcion").query_db( query, data ) 
+        resultado = connectToMySQL(os.environ.get("BASE_DATOS_NOMBRE")).query_db( query, data ) 
         print('resultado save base', resultado)
         return resultado
     
@@ -39,7 +38,7 @@ class Registro(ModeloBase):
     def get_by_id(cls, id):
         query = f"SELECT * FROM {cls.modelo} where usuarios_id = %(id)s;"
         data = { 'id' : id }
-        results = connectToMySQL("db_transcripcion").query_db(query, data)
+        results = connectToMySQL(os.environ.get("BASE_DATOS_NOMBRE")).query_db(query, data)
         if len(results) > 0:
             return results
         else:

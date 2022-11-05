@@ -1,4 +1,5 @@
 
+import os
 from flask import flash
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models.modelo_base import ModeloBase
@@ -22,7 +23,7 @@ class Usuario(ModeloBase):
     def buscar(cls, dato):
         query = "SELECT * FROM usuarios WHERE email = %(dato)s"
         data = { 'dato' : dato }
-        results = connectToMySQL("db_transcripcion").query_db(query, data)
+        results = connectToMySQL(os.environ.get("BASE_DATOS_NOMBRE")).query_db(query, data)
         print(results)
         if len(results) < 1:
             return False
@@ -37,7 +38,7 @@ class Usuario(ModeloBase):
                         password = %(password)s,
                         updated_at=NOW() 
                     WHERE id = %(id)s"""
-        resultado = connectToMySQL("db_transcripcion").query_db(query, data)
+        resultado = connectToMySQL(os.environ.get("BASE_DATOS_NOMBRE")).query_db(query, data)
         print("RESULTADO: ", resultado)
         return resultado
 
@@ -74,7 +75,7 @@ class Usuario(ModeloBase):
     @classmethod
     def get_all_comments(cls):
         query = f"SELECT * FROM {cls.modelo} RIGHT JOIN pensamientos ON pensamientos.user_id = users.id;"
-        results = connectToMySQL("db_transcripcion").query_db(query)
+        results = connectToMySQL(os.environ.get("BASE_DATOS_NOMBRE")).query_db(query)
 
         all_likes = []
         all_data = []

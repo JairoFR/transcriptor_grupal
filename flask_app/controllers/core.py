@@ -54,8 +54,9 @@ def login():
 
 @app.route("/procesar_login", methods=["POST"])
 def procesar_login():
-
+   
     usuario = Usuario.buscar(request.form['identificacion'])
+    print('>>>>>>>><',usuario)
 
     if not usuario:
         flash("Correo/Clave Invalidas", "error")
